@@ -1,0 +1,53 @@
+# All the commands have been tested on a Xubuntu 22.04
+# First we update our machine
+sudo apt update
+sudo apt upgrade
+
+# We install the Nginx server
+sudo apt install nginx
+
+# We test and enable the firewall if it is disabled
+sudo ufw status
+sudo ufw enable
+sudo ufw status
+sudo ufw app list
+sudo ufw allow 'Nginx HTTP'
+sudo ufw status
+
+# We check if Nginx is enable system-wide
+systemctl status nginx
+
+# We install the Nginx RTMP module
+sudo apt install libnginx-mod-rtmp
+
+# We open the nginx.conf file and update it with the RTMP configuration
+sudo vim /etc/nginx/nginx.conf
+
+# These are the lines to add at the end of the file
+rtmp {
+        server {
+                listen 1935;
+                chunk_size 4096;
+                allow publish 127.0.0.1;
+                deny publish all;
+
+                application live {
+                        live on;
+                        record off;
+                }
+        }
+}
+
+# We enable the RTMP port (1935/TCP)
+sudo ufw allow 1935/tcp
+sudo ufw status
+
+# We reload Nginx system-wide
+sudo systemctl reload nginx
+
+# The command to run on the server
+ffmpeg -re -i 70namDBP.mp4 -c:v libx264 -b:v 1M -c:a aac -strict -2 -f flv rtmp://localhost/live/bbb
+
+
+# The command to run on the client. Edit with the IP address of your own machine
+{ffplay|mpv} rtmp://SERVER_IP_ADDRESS/live/bbb

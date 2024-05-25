@@ -1,0 +1,6 @@
+Step 1: Trong /var/www/html/index.html
+Đổi src thành : http://192.168.112.129/hls/stream/index.m3u8
+
+Step 2: Trong OBS cấu hình
+Server : rtmp://192.168.112.129/live
+Key : stream

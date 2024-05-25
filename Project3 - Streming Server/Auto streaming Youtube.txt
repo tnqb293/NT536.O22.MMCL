@@ -1,0 +1,10 @@
+Step 1: Push luồng live youtube vào server
+push rtmp://a.rtmp.youtube.com/live2/vq2j-a8w2-hgxy-qm5u-bs26;
+
+Step 2: Run ./stream.sh
+
+ffmpeg -re -i 70namDBP.mp4 -vcodec copy -loop -1 -c:a aac -b:a 160k -ar 44100 -strict -2 -f flv rtmp://localhost/live/1234
+
+Step 3: Set up OBS
+Server : rtmp://192.168.112.128/live
+Key: 1234

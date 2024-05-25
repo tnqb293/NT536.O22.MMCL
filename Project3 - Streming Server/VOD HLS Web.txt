@@ -1,0 +1,12 @@
+Step 1: Trong file nginx.conf
+Đổi alias và hls_path thành /tmp
+
+Step 2: Trong index.html
+sudo nano /var/www/html/index.html
+đổi src thành http://192.168.112.129/hls/index.m3u8
+
+Step 3: Chạy ./stream.sh
+ffmpeg -i 70namDBP.mp4 -profile:v baseline -level 3.0 -s 720x400 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls /tmp/index.m3u8
+
+Step 4: Chạy trên web
+192.168.112.129
